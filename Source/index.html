@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Loftschool-geo</title>
+<head>
+	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=d449f5c2-96fa-4179-893e-95533aaf57cf" type="text/javascript"></script>
+	<script src="script.js"></script>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div id="map"></div>
+	<form action="" method="get">
+		<h2>Ваш отзыв</h2>
+		<label class="form__label" for="name">
+			<input class="form__input" type="text" name="name" id="name" type="text" value placeholder="Ваше имя" required="">
+		</label>
+		<label class="form__label" for="place">
+			<input class="form__input" type="text" name="place" id="place" type="text" value placeholder="Укажите место" required="">
+		</label>
+		<textarea name="comment" id="comment" cols="30" rows="10" placeholder="Поделитесь впечатлениями"></textarea>
+		<button class="button" type="submit">Добавить</button>
+	</form>
+</body>
+</html>
