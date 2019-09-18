@@ -15,12 +15,40 @@ function init () {
         searchControlProvider: 'yandex#search'
     });
 
+    function getAddress(coords) {
+
+        ymaps.geocode(coords).then(function (res) {
+            var firstGeoObject = res.geoObjects.get(0);
+
+            placemark.properties
+                .set({
+                    // Формируем строку с данными об объекте.
+                    iconCaption: [
+                        // Название населенного пункта или вышестоящее административно-территориальное образование.
+                        firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                        // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
+                        firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                    ].filter(Boolean).join(', '),
+                    // В качестве контента балуна задаем строку с адресом объекта.
+                    balloonContentHeader: firstGeoObject.getAddressLine()
+                });
+        });
+    }
+
     myMap.events.add('click', function (e) {
+
         var coords = e.get('coords');
+
+        getAddress(coords);
+
+        ymaps.geocode(coords).then(function (res) {
+        var firstGeoObject = res.geoObjects.get(0);
+
+         placemark.properties.set ({ balloonContentHeader: firstGeoObject.getAddressLine()})
+      })
+
         var placemark = new ymaps.Placemark(coords, {
         // Зададим содержимое заголовка балуна.
-        balloonContentHeader: '<a href = "#">Рога и копыта</a><br>' +
-            '<span class="description">Сеть кинотеатров</span>',
         // Зададим содержимое основной части балуна.
         balloonContentBody: '<img src="img/cinema.jpg" height="150" width="200"> <br/> ' +
             '<a href="tel:+7-123-456-78-90">+7 (123) 456-78-90</a><br/>' +
