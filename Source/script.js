@@ -3,9 +3,18 @@ var myMap;
 // Дождёмся загрузки API и готовности DOM.
 ymaps.ready(init);
 
+let array = [];
+let obj = {
+        name: '',
+        place: '',
+        comment: '',
+    };
+
+
 function init () {
     // Создание экземпляра карты и его привязка к контейнеру с
     // заданным id ("map").
+
     myMap = new ymaps.Map('map', {
         // При инициализации карты обязательно нужно указать
         // её центр и коэффициент масштабирования.
@@ -14,6 +23,8 @@ function init () {
     }, {
         searchControlProvider: 'yandex#search'
     });
+
+
 
     function getAddress(coords) {
 
@@ -38,6 +49,20 @@ function init () {
     myMap.events.add('click', function (e) {
 
         var coords = e.get('coords');
+            var MyBalloonContentLayoutClass = ymaps.templateLayoutFactory.createClass(
+                              '<label class="form__label" for="name"> <h2>Ваш отзыв</h2>' + 
+                              '<input class="form__input" type="text" name="name" id="name" type="text" value placeholder="Ваше имя" required=""></label>' + 
+                              '<label class="form__label" for="place"><input class="form__input" type="text" name="place" id="place" type="text" value placeholder="Укажите место" required=""></label>' +
+                              '<textarea name="comment" id="comment" cols="30" rows="10" placeholder="Поделитесь впечатлениями"></textarea>' +
+                              '<button class="button" id="button">Добавить</button>', {
+                                build: function () {
+                // Сначала вызываем метод build родительского класса.
+                MyBalloonContentLayoutClass.superclass.build.call(this);
+                // А затем выполняем дополнительные действия.
+        
+            }
+                              }
+        );
 
         getAddress(coords);
 
@@ -47,21 +72,8 @@ function init () {
          placemark.properties.set ({ balloonContentHeader: firstGeoObject.getAddressLine()})
       })
 
-        var placemark = new ymaps.Placemark(coords, {
-        // Зададим содержимое заголовка балуна.
-        // Зададим содержимое основной части балуна.
-        balloonContentBody: '<img src="img/cinema.jpg" height="150" width="200"> <br/> ' +
-            '<a href="tel:+7-123-456-78-90">+7 (123) 456-78-90</a><br/>' +
-            '<b>Ближайшие сеансы</b> <br/> Сеансов нет.',
-        // Зададим содержимое нижней части балуна.
-        balloonContentFooter: '<form action="" method="get"> <label class="form__label" for="name"> <h2>Ваш отзыв</h2>' + 
-                              '<input class="form__input" type="text" name="name" id="name" type="text" value placeholder="Ваше имя" required=""></label>' + 
-                              '<label class="form__label" for="place"><input class="form__input" type="text" name="place" id="place" type="text" value placeholder="Укажите место" required=""></label>' +
-                              '<textarea name="comment" id="comment" cols="30" rows="10" placeholder="Поделитесь впечатлениями"></textarea>' +
-                              '<button class="button" type="submit">Добавить</button></form>',
-        // Зададим содержимое всплывающей подсказки.
-        hintContent: 'Рога и копыта'
-    }, {
+        var placemark = new ymaps.Placemark(coords,{}, {balloonContentLayout: MyBalloonContentLayoutClass}, 
+        {
             iconLayout: 'default#image',
             iconImageHref: 'placemark.svg',
             iconImageSize: [30, 40]
@@ -69,6 +81,24 @@ function init () {
 
         myMap.geoObjects.add(placemark);
         placemark.balloon.open();
+
+                        let buttonAdd = document.querySelector('.button');
+let nameInput = document.querySelector('#name');
+let placeInput = document.querySelector('#place');
+let commentInput = document.querySelector('#comment');
+
+    if (myMap.balloon.isOpen()) {
+        console.log('5');
+        ymaps.domEvent.manager
+    .add(buttonAdd, 'click', function (event) {
+        console.log(event.get('type'));
     });
+    }
+        
+    });
+
+
+
+
 
 }
