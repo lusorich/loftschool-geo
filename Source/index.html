@@ -4,21 +4,29 @@
 <title>Loftschool-geo</title>
 <head>
 	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=d449f5c2-96fa-4179-893e-95533aaf57cf" type="text/javascript"></script>
-	<script src="script.js"></script>
-	<link rel="stylesheet" href="style.css">
+	<script src="js/script.js"></script>
+	<script src="js/handlebars.min-v4.2.1.js"></script>
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div id="map"></div>
-	<form action="" method="get">
-		<h2>Ваш отзыв</h2>
-		<label class="form__label" for="name">
-			<input class="form__input" type="text" name="name" id="name" type="text" value placeholder="Ваше имя" required="">
-		</label>
-		<label class="form__label" for="place">
-			<input class="form__input" type="text" name="place" id="place" type="text" value placeholder="Укажите место" required="">
-		</label>
-		<textarea name="comment" id="comment" cols="30" rows="10" placeholder="Поделитесь впечатлениями"></textarea>
-		<button class="button" type="submit">Добавить</button>
-	</form>
+	<div class="popup hidden">
+		<div class="address">
+			<a class="address__link" href="#">{{address}}</a>
+		</div>
+		<div class="comment">
+			<span class="comment__name"></span>
+			<span class="comment__place"></span>
+			<span class="comment__date"></span>
+			<p class="comment__text"></p>
+		</div>
+		<div class="form">
+				<span class="form__desc">Ваш отзыв</span>
+			 	<input class="form__input" type="text" name="name" id="name" type="text" value placeholder="Ваше имя" required="">
+                <input class="form__input" type="text" name="place" id="place" type="text" value placeholder="Укажите место" required="">
+                <textarea class="form__text" name="text" id="comment" cols="30" rows="10" placeholder="Поделитесь впечатлениями"></textarea>
+                <button class="button" id="button">Добавить</button>
+		</div>
+	</div>
 </body>
 </html>
