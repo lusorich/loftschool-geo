@@ -1,7 +1,6 @@
 var myMap;
 
 var arrayUsers = [];
-var users = {};
 
 
 ymaps.ready(() => {
@@ -55,6 +54,8 @@ ymaps.ready(() => {
         userData.comment = comment.value;
         userData.date = date;
         userData.address = addressLink.textContent;
+        arrayUsers.push(userData);
+        console.log(arrayUsers);
 
         if (!userData.name || !userData.place || !userData.comment) {
             alert('Введите все поля');
