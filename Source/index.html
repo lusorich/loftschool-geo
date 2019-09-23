@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <title>Loftschool-geo</title>
 <head>
-	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=d449f5c2-96fa-4179-893e-95533aaf57cf" type="text/javascript"></script>
+	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=3b8434ff-6ad7-4118-a111-27b5fa75b848" type="text/javascript"></script>
 	<script src="js/script.js"></script>
 	<script src="js/handlebars.min-v4.2.1.js"></script>
 	<link rel="stylesheet" href="css/style.css">
@@ -12,13 +12,18 @@
 	<div id="map"></div>
 	<div class="popup hidden">
 		<div class="address">
-			<a class="address__link" href="#">{{address}}</a>
+			<a class="address__link" href="#"></a>
 		</div>
 		<div class="comment">
 			<span class="comment__name"></span>
-			<span class="comment__place"></span>
-			<span class="comment__date"></span>
-			<p class="comment__text"></p>
+			<script id="template" type="text/x-handlebars-template">
+				{{#each arrayUsersData}}
+					<span class="comment__name">{{arrayUsersData.name}}</span>
+					<span class="comment__place">{{arrayUsersData.place}}</span>
+					<span class="comment__date">{{arrayUsersData.date}}</span>
+					<p class="comment__text">{{arrayUsersData.comment}}</p>
+				{{/each}}
+		  </script>
 		</div>
 		<div class="form">
 				<span class="form__desc">Ваш отзыв</span>
