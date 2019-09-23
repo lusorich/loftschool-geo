@@ -15,15 +15,19 @@
 			<a class="address__link" href="#"></a>
 		</div>
 		<div class="comment">
-			<span class="comment__name"></span>
 			<script id="template" type="text/x-handlebars-template">
-				{{#each arrayUsersData}}
-					<span class="comment__name">{{arrayUsersData.name}}</span>
-					<span class="comment__place">{{arrayUsersData.place}}</span>
-					<span class="comment__date">{{arrayUsersData.date}}</span>
-					<p class="comment__text">{{arrayUsersData.comment}}</p>
+			<div>
+				{{#each arrayUsers}}
+					<span class="comment__name">{{name}}</span>
+					<span class="comment__place">{{place}}</span>
+					<span class="comment__date">{{date}}</span>
+					<p class="comment__text">{{comment}}</p>
 				{{/each}}
+			</div>
 		  </script>
+		  <div class="comment-wrapper">
+		  	
+		  </div>
 		</div>
 		<div class="form">
 				<span class="form__desc">Ваш отзыв</span>

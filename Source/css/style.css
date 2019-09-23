@@ -80,3 +80,23 @@
 	color: #ffffff;
 	padding-left: 10px;
 }
+
+.comment-wrapper {
+	display: flex;
+	flex-direction: column;
+	height: 150px;
+	background-color: #ffffff;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.comment__place {
+	color: #7b7b7b;
+}
+
+.comment__date {
+	color: #7b7b7b;
+}
+
+.comment__text {
+	color: #8c8c8c;
+}
