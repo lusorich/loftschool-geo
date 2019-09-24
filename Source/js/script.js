@@ -30,6 +30,7 @@ ymaps.ready(() => {
 
         coords = e.get('coords');
         getAddress(coords);
+        commentWrapper.innerHTML = '';
     });
 
     var popup = document.querySelector('.popup');
@@ -48,13 +49,6 @@ ymaps.ready(() => {
         popup.style.top = `${e.clientY}px`;
         popup.style.left = `${e.clientX}px`;
         popup.classList.toggle('hidden');
-
-        var template = document.getElementById('template');
-        var templateSource = template.innerHTML;
-        var rend = Handlebars.compile(templateSource);
-        var templateHtml = rend('');
-        commentWrapper.innerHTML = templateHtml;
-
     });
 
     button.addEventListener('click', () => {
@@ -98,10 +92,15 @@ ymaps.ready(() => {
         clusterBalloonPagerSize: 5
     });
 
+    
+
+
+
+
+
     function createPlacemark(coords, userData, clusterer) {
         var placemark = new ymaps.Placemark(coords,
         {
-        	coords: coords,
             balloonContentHeader: `<span>${userData.place}</span>`,
             balloonContentBody: `<a id="address" href="#">${userData.address}</a>`
         }, {
@@ -110,8 +109,28 @@ ymaps.ready(() => {
             iconImageSize: [30, 40]
         });
 
+         placemark.events.add('click', function (e) {
+
+                e.preventDefault();
+
+                coords = placemark.geometry.getCoordinates();
+                let [x, y] = coords;
+
+               
+                for (key in arrayUsersData.arrayUsers) {
+     		 	let arrayUsersData2 = {
+    				arrayUsers: []
+				};
+           		 if (arrayUsersData.arrayUsers[key].coords[0] == x && arrayUsersData.arrayUsers[key].coords[1] == y) {
+           		 	arrayUsersData2.arrayUsers.push(arrayUsersData.arrayUsers[key]);
+           		 	createPopup(arrayUsersData.arrayUsers[key].coords, arrayUsersData2);
+ 				}
+			}
+            });
+
         clusterer.add(placemark);
         myMap.geoObjects.add(clusterer);
+
     }
 
     document.addEventListener('click', (e) => {
@@ -124,7 +143,7 @@ ymaps.ready(() => {
     var template;
 
     function createPopup(coords, arrayUsersData) {
-        console.log(arrayUsersData);
+    	getAddress(coords);
         [coordsX, coordsY] = coords;
         let actualData = {
             arrayUsers: []
@@ -138,6 +157,7 @@ ymaps.ready(() => {
                 actualData.arrayUsers.push(arrayUsersData.arrayUsers[key]);
                 var templateHtml = rend(actualData);
                 commentWrapper.innerHTML = templateHtml;
+                console.log('hola');
             }
         }
     }
