@@ -31,7 +31,10 @@ ymaps.ready(() => {
         coords = e.get('coords');
         getAddress(coords);
         commentWrapper.innerHTML = '';
+        click();
     });
+
+
 
     var popup = document.querySelector('.popup');
     var button = document.querySelector('.button');
@@ -45,14 +48,23 @@ ymaps.ready(() => {
     var comment__place = document.querySelector('.comment__place');
     var comment__text = document.querySelector('.comment__text');
 
-    map.addEventListener('click', (e) => {
+    var popupToggle = function(e) {
         popup.style.top = `${e.clientY}px`;
         popup.style.left = `${e.clientX}px`;
         popup.classList.toggle('hidden');
-    });
+    }
+
+    function click() {
+        map.addEventListener('click', popupToggle)
+    };
+
+    function clickDel() {
+        map.removeEventListener('click', popupToggle);
+    }
 
     button.addEventListener('click', () => {
-        let date = '';
+        let currentDate = new Date();
+        let date = `${currentDate.getUTCDate()}.${currentDate.getUTCMonth() + 1}.${currentDate.getUTCFullYear()}`;
         let userData = {};
 
         userData.name = name.value;
@@ -94,54 +106,71 @@ ymaps.ready(() => {
 
 
     function createPlacemark(coords, userData, clusterer) {
-        var placemark = new ymaps.Placemark(coords,
-        {
+        var placemark = new ymaps.Placemark(coords, {
             balloonContentHeader: `<span>${userData.place}</span>`,
-            balloonContentBody: `<a id="address" href="#">${userData.address}</a>`
+            balloonContentBody: `<a id="address" href="#">${userData.address}</a>` + `<p>${userData.comment}`,
+            balloonContentFooter: `<span>${userData.date}</span>`
         }, {
             iconLayout: 'default#image',
             iconImageHref: 'img/placemark.svg',
             iconImageSize: [30, 40]
         });
 
-         placemark.events.add('click', function (e) {
+        placemark.events.add('click', function(e) {
+            e.preventDefault();
 
-                e.preventDefault();
+            coords = placemark.geometry.getCoordinates();
+            [x, y] = coords;
 
-                coords = placemark.geometry.getCoordinates();
-                [x, y] = coords;
 
-               
-                for (key in arrayUsersData.arrayUsers) {
-     		 	let arrayUsersData2 = {
-    				arrayUsers: []
-				};
-           		 if (arrayUsersData.arrayUsers[key].coords[0] == x && arrayUsersData.arrayUsers[key].coords[1] == y) {
-           		 	arrayUsersData2.arrayUsers.push(arrayUsersData.arrayUsers[key]);
-           		 	createPopup(coords2, arrayUsersData2);
- 				}
-			}
-            });
+            for (key in arrayUsersData.arrayUsers) {
+                let arrayUsersData2 = {
+                    arrayUsers: []
+                };
+                if (arrayUsersData.arrayUsers[key].coords[0] == x && arrayUsersData.arrayUsers[key].coords[1] == y) {
+                    arrayUsersData2.arrayUsers.push(arrayUsersData.arrayUsers[key]);
+                    createPopup(coords, arrayUsersData2);
+                }
+            }
+        });
 
         clusterer.add(placemark);
         myMap.geoObjects.add(clusterer);
-
+       
     }
 
     document.addEventListener('click', (e) => {
+
         let element = e.target;
         if (element.id === 'address') {
-            console.log(placemark.coords);
+            commentWrapper.innerHTML = '';
+            e.preventDefault();
+            popup.classList.remove('hidden');
+
+            for (key in arrayUsersData.arrayUsers) {
+                let arrayUsersData3 = {
+                    arrayUsers: []
+                };
+                if (arrayUsersData.arrayUsers[key].address == address.textContent) {
+                    arrayUsersData3.arrayUsers.push(arrayUsersData.arrayUsers[key]);
+                    var template = document.getElementById('template');
+                    var templateSource = template.innerHTML;
+                    var rend = Handlebars.compile(templateSource);
+                    var templateHtml = rend(arrayUsersData3);
+                    commentWrapper.innerHTML += templateHtml;
+                }
+            }
+            myMap.balloon.close();
         }
-        if (element.className === 'idi') {
-            alert('11');
+        if (element.id === 'address__close-button') {
+            popup.classList.add('hidden');
         }
     })
 
     var template;
 
     function createPopup(coords, arrayUsersData) {
-    	getAddress(coords);
+        getAddress(coords);
         [coordsX, coordsY] = coords;
         let actualData = {
             arrayUsers: []
@@ -155,7 +184,6 @@ ymaps.ready(() => {
                 actualData.arrayUsers.push(arrayUsersData.arrayUsers[key]);
                 var templateHtml = rend(actualData);
                 commentWrapper.innerHTML = templateHtml;
-                console.log('hola');
             }
         }
     }

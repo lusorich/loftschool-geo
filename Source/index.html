@@ -13,27 +13,30 @@
 	<div class="popup hidden">
 		<div class="address">
 			<a class="address__link" href="#"></a>
-		</div>
-		<div class="comment">
-			<script id="template" type="text/x-handlebars-template">
-			<div>
-				{{#each arrayUsers}}
-					<span class="comment__name">{{name}}</span>
-					<span class="comment__place">{{place}}</span>
-					<span class="comment__date">{{date}}</span>
-					<p class="comment__text">{{comment}}</p>
-				{{/each}}
-			</div>
-		  </script>
-		  <div class="comment-wrapper"></div>
-		</div>
-		<div class="form">
-				<span class="form__desc">Ваш отзыв</span>
-			 	<input class="form__input" type="text" name="name" id="name" type="text" value placeholder="Ваше имя" required="">
-                <input class="form__input" type="text" name="place" id="place" type="text" value placeholder="Укажите место" required="">
-                <textarea class="form__text" name="text" id="comment" cols="30" rows="10" placeholder="Поделитесь впечатлениями"></textarea>
-                <button class="button" id="button">Добавить</button>
+			<div id="address__close-wrapper">
+				<img id="address__close-button" src="img/close-button.svg">
 		</div>
 	</div>
+	<div class="comment">
+		<script id="template" type="text/x-handlebars-template">
+			<div>
+				{{#each arrayUsers}}
+				<span class="comment__name">{{name}}</span>
+				<span class="comment__place">{{place}}</span>
+				<span class="comment__date">{{date}}</span>
+				<p class="comment__text">{{comment}}</p>
+				{{/each}}
+			</div>
+		</script>
+		<div class="comment-wrapper"></div>
+	</div>
+	<div class="form">
+		<span class="form__desc">Ваш отзыв</span>
+		<input class="form__input" type="text" name="name" id="name" type="text" value placeholder="Ваше имя" required="">
+		<input class="form__input" type="text" name="place" id="place" type="text" value placeholder="Укажите место" required="">
+		<textarea class="form__text" name="text" id="comment" cols="30" rows="10" placeholder="Поделитесь впечатлениями"></textarea>
+		<button class="button" id="button">Добавить</button>
+	</div>
+</div>
 </body>
 </html>
