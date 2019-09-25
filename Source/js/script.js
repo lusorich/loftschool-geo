@@ -92,11 +92,6 @@ ymaps.ready(() => {
         clusterBalloonPagerSize: 5
     });
 
-    
-
-
-
-
 
     function createPlacemark(coords, userData, clusterer) {
         var placemark = new ymaps.Placemark(coords,
@@ -114,7 +109,7 @@ ymaps.ready(() => {
                 e.preventDefault();
 
                 coords = placemark.geometry.getCoordinates();
-                let [x, y] = coords;
+                [x, y] = coords;
 
                
                 for (key in arrayUsersData.arrayUsers) {
@@ -123,7 +118,7 @@ ymaps.ready(() => {
 				};
            		 if (arrayUsersData.arrayUsers[key].coords[0] == x && arrayUsersData.arrayUsers[key].coords[1] == y) {
            		 	arrayUsersData2.arrayUsers.push(arrayUsersData.arrayUsers[key]);
-           		 	createPopup(arrayUsersData.arrayUsers[key].coords, arrayUsersData2);
+           		 	createPopup(coords2, arrayUsersData2);
  				}
 			}
             });
@@ -137,6 +132,9 @@ ymaps.ready(() => {
         let element = e.target;
         if (element.id === 'address') {
             console.log(placemark.coords);
+        }
+        if (element.className === 'idi') {
+            alert('11');
         }
     })
 
