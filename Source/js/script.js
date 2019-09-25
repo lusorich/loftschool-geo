@@ -35,7 +35,6 @@ ymaps.ready(() => {
     });
 
 
-
     var popup = document.querySelector('.popup');
     var button = document.querySelector('.button');
     var map = document.getElementById('map');
@@ -117,7 +116,7 @@ ymaps.ready(() => {
         });
 
         placemark.events.add('click', function(e) {
-            e.preventDefault();
+        	e.preventDefault();
 
             coords = placemark.geometry.getCoordinates();
             [x, y] = coords;
